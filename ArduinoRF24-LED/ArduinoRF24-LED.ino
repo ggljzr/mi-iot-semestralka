@@ -23,21 +23,26 @@
 #define THIS_ARD_WRITE_PIPE ARD2_TO_ARD1
 #define THIS_ARD_READ_PIPE  ARD1_TO_ARD2
 
+#define LED_NUM 4
+
 RF24 radio(7,8);
 
 //opdpoved ok
 uint8_t default_answer[10] = {0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
+const uint8_t not_supported[10] = {0xFF, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+const uint8_t led_pins[LED_NUM] = {2,3,4,5};
+
 //adresy pouzity v openReadingPipe 1 - 5 by se mely
 //lisit jen v prvnim bytu
-bool led_state;
 void setup()
 {
     Serial.begin(115200);
     Serial.println("LED Board");
 
     radio.begin();
-    
+
     radio.setPALevel(RF24_PA_LOW);
 
     //otevirani komunikacnich kanalu
@@ -47,12 +52,14 @@ void setup()
 
     radio.openReadingPipe(1, THIS_RPI_WRITE_PIPE);
     radio.openReadingPipe(2, THIS_ARD_READ_PIPE);
-    radio.openWritingPipe(THIS_ARD_WRITE_PIPE);   
- 
+    radio.openWritingPipe(THIS_ARD_WRITE_PIPE);
+
     radio.startListening();
-    pinMode(LED_PIN, OUTPUT);
-    led_state = 0;
-    digitalWrite(LED_PIN, led_state);
+    
+    for(int i = 0; i < LED_NUM; i++){
+        pinMode(led_pins[i], OUTPUT);
+        digitalWrite(led_pins[i], LOW);
+    }
 
 }
 
@@ -63,6 +70,7 @@ void loop()
 
     uint8_t read_buffer[READ_BUFFER_SIZE];
     //byte write_buffer[WRITE_BUFFER_SIZE] = THIS_ARD_STR;
+    uint8_t write_buffer[WRITE_BUFFER_SIZE];
 
     //pongback
     if(radio.available())
@@ -71,7 +79,7 @@ void loop()
         {
             radio.read(read_buffer, sizeof(uint8_t) * READ_BUFFER_SIZE);
         }
-      
+
         //votevreme prislusnej kanal do kteryho budem vodpovidat
         if(read_buffer[1] == 0x00)
         {
@@ -89,25 +97,62 @@ void loop()
             Serial.print(" ");
         }
         Serial.println("");
-        
-        //pokud prisel prikaz pro preputi ledky, prepni ledku
-        if(read_buffer[0] = 0x01){
-            led_state = !led_state;    
-            digitalWrite(LED_PIN, led_state);
-            delay(50);
+
+        for(int i = 0; i < WRITE_BUFFER_SIZE;i++)
+            write_buffer[i] = 0x00;
+        write_buffer[1] = THIS_DEVICE_NUM;
+
+        uint8_t led_num = 0;
+        bool current_led_state = 0;
+        bool answer = false;
+        switch(read_buffer[0])
+        {
+            case 0x00:
+                answer = true;
+                break;
+            case 0xFF:
+                answer = true;
+                break;
+            case 0x01:
+                led_num = read_buffer[9];
+                led_num = led_num % LED_NUM;
+                current_led_state = digitalRead(led_pins[led_num]);
+                current_led_state = !current_led_state;
+                digitalWrite(led_pins[led_num], current_led_state);
+                write_buffer[0] = 0x00;
+                write_buffer[9] = current_led_state;
+                break;
+            case 0x02:
+                led_num = read_buffer[9];
+                led_num = led_num % LED_NUM;
+                digitalWrite(led_pins[led_num], HIGH);
+                write_buffer[0] = 0x00;
+                write_buffer[9] = 0x01;
+                break;
+            case 0x03:
+                led_num = read_buffer[9];
+                led_num = led_num % LED_NUM;
+                digitalWrite(led_pins[led_num], LOW);
+                write_buffer[0] = 0x00;
+                write_buffer[9] = 0x01;
+                break;
+            case 0x04:
+                write_buffer[9] = digitalRead(led_pins[3]);
+                write_buffer[8] = digitalRead(led_pins[2]);
+                write_buffer[7] = digitalRead(led_pins[1]);
+                write_buffer[6] = digitalRead(led_pins[0]);
+                break;
+            default:
+                write_buffer[0] = 0xFF;
         }
-        
-        //prestanem poslouchat abysme poslali zpravu
-        //zase na zpravy ok neodpovidame
-        //i kdyz tady pak asi bude proste nakej 
-        //switch az bude vic prikazu
-        if(read_buffer[0] != 0x00){
+
+        //posilani vodpovedi kdyz prichozi zprava nebyla vodpoved
+        if(!answer){
             radio.stopListening();
-            default_answer[9] = (uint8_t) led_state;
-            radio.write(default_answer, sizeof(uint8_t) * WRITE_BUFFER_SIZE);
+            radio.write(write_buffer, sizeof(uint8_t) * MESSAGE_LENGTH);
             radio.startListening();
         }
-        
+
     }
 
 }
