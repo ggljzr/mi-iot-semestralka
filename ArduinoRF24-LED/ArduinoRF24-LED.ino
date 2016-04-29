@@ -127,14 +127,12 @@ void loop()
                 led_num = led_num % LED_NUM;
                 digitalWrite(led_pins[led_num], HIGH);
                 write_buffer[0] = 0x00;
-                write_buffer[9] = 0x01;
                 break;
             case 0x03:
                 led_num = read_buffer[9];
                 led_num = led_num % LED_NUM;
                 digitalWrite(led_pins[led_num], LOW);
                 write_buffer[0] = 0x00;
-                write_buffer[9] = 0x01;
                 break;
             case 0x04:
                 write_buffer[9] = digitalRead(led_pins[3]);
