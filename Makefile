@@ -5,8 +5,7 @@ LIBS=-lrf24
 
 all: rpi_rf24
 
-rpi_rf24: main.o
-	$(CC) $(CFLAGS) $(INCLUDE) -o rpi_rf24 main.o $(LIBS)
-
+rpi_rf24: rpi_rf24.o
+	$(CC) $(CFLAGS) $(INCLUDE) -o rpi_rf24 rpi_rf24.o $(LIBS)
 clean:
 	rm *.o
