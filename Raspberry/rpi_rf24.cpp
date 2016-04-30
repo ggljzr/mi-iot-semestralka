@@ -11,6 +11,7 @@
 #define WRITE_BUFFER_SIZE MESSAGE_LENGHT
 
 #define ADDRESS_SIZE 5
+#define TRIES 5
 
 using namespace std;
 
@@ -67,33 +68,41 @@ int main(int argc, char * argv[])
     }
 
     printf("\nsending to %llx\n", writing_pipe);
-    radio.stopListening();
-    bool ok = radio.write(write_buffer, sizeof(uint8_t) * MESSAGE_LENGHT);
 
-    if(!ok)
-        cout << "failed!" << endl;
-
-    radio.startListening();
-
-    uint64_t started_waiting = millis();
-    bool timeout = false;
-    while(!radio.available() && !timeout)
+    for(int i = 0; i < TRIES; i++)
     {
-        if(millis() - started_waiting > 600)
-            timeout = true;
-    }
+        cout << "trying " << i << endl;
+        radio.stopListening();
+        bool ok = radio.write(write_buffer, sizeof(uint8_t) * MESSAGE_LENGHT);
 
-    if(timeout)
-        cout << "response timed out" << endl;
-    else
-    {
-        radio.read(read_buffer, sizeof(uint8_t) * READ_BUFFER_SIZE);
-        cout << "response" << endl;
-        for(int i = 0; i < READ_BUFFER_SIZE; i++)
-        {
-            printf("%02hhx ", read_buffer[i]);
+        if(!ok){
+            cout << "failed!" << endl;
+            continue;
         }
-        cout << endl;
+
+        radio.startListening();
+
+        uint64_t started_waiting = millis();
+        bool timeout = false;
+        while(!radio.available() && !timeout)
+        {
+            if(millis() - started_waiting > 600)
+                timeout = true;
+        }
+
+        if(timeout)
+            cout << "response timed out" << endl;
+        else
+        {
+            radio.read(read_buffer, sizeof(uint8_t) * READ_BUFFER_SIZE);
+            cout << "response" << endl;
+            for(int i = 0; i < READ_BUFFER_SIZE; i++)
+            {
+                printf("%02hhx ", read_buffer[i]);
+            }
+            cout << endl;
+            break;
+        }
     }
 
     return 0;
