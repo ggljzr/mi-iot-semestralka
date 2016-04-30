@@ -5,10 +5,10 @@
 #include <unistd.h>
 #include <RF24/RF24.h>
  
-#define MESSAGE_SIZE 10
+#define MESSAGE_LENGHT 10
 #define MESSAGE_TIMEOUT 600
-#define READ_BUFFER_SIZE MESSAGE_SIZE
-#define WRITE_BUFFER_SIZE MESSAGE_SIZE
+#define READ_BUFFER_SIZE MESSAGE_LENGHT
+#define WRITE_BUFFER_SIZE MESSAGE_LENGHT
 
 #define ADDRESS_SIZE 5
 
@@ -21,11 +21,11 @@ const uint8_t toggle_led_cmd[10] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x
 
 int main(int argc, char * argv[])
 {
-    cout << "RPI hub" << endl;
 
     if(argc < 4)
     {
         cout << "usage: ./rpi_rf24 reading_pipe writing_pipe cmd(1 byte) data(4 bytes)" << endl;
+        return 0;
     }
 
     uint64_t reading_pipe = strtoll(argv[1], NULL, 16);
@@ -34,6 +34,7 @@ int main(int argc, char * argv[])
     uint8_t cmd = strtol(argv[3], NULL, 16);
     uint32_t data = strtol(argv[4], NULL, 16);
 
+
     radio.begin();
     radio.setRetries(15,15);
     radio.printDetails();
@@ -41,13 +42,32 @@ int main(int argc, char * argv[])
     radio.openReadingPipe(1,reading_pipe);
     radio.openWritingPipe(writing_pipe);
 
-    //uint8_t write_buffer[WRITE_BUFFER_SIZE] = "0RPI  \n";
+    uint8_t write_buffer[MESSAGE_LENGHT];
     uint8_t read_buffer[READ_BUFFER_SIZE];
 
-    printf("sending to %llx\n", writing_pipe);
+    for(int i = 0; i < MESSAGE_LENGHT; i++)
+    {
+        write_buffer[i] = 0;
+    }
 
+    write_buffer[0] = cmd;
+    write_buffer[1] = 0x00;
+
+    for(int i = 0; i < 4; i++)
+    {
+        uint8_t data_byte = (data >> 8 * i) & 0xFF;
+        write_buffer[i + 6] = data_byte;
+    }
+
+    cout << "message: " << endl;
+    for(int i = 0; i < MESSAGE_LENGHT)
+    {
+        print("%02hhx", write_buffer[i]);
+    }
+
+    printf("\nsending to %llx\n", writing_pipe);
     radio.stopListening();
-    bool ok = radio.write(toggle_led_cmd, sizeof(uint8_t) * MESSAGE_SIZE);
+    bool ok = radio.write(write_buffer, sizeof(uint8_t) * MESSAGE_LENGHT);
 
     if(!ok)
         cout << "failed!" << endl;
