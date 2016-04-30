@@ -62,7 +62,7 @@ int main(int argc, char * argv[])
     cout << "message: " << endl;
     for(int i = 0; i < MESSAGE_LENGHT)
     {
-        print("%02hhx", write_buffer[i]);
+        printf("%02hhx", write_buffer[i]);
     }
 
     printf("\nsending to %llx\n", writing_pipe);
