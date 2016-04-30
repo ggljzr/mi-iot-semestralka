@@ -1,6 +1,9 @@
 
 import subprocess as sb
 
+#taky funguje jako univerzalni zarizeni, podporuje
+#vsechny prikazy, kdytak to bude akorat kricet ze 
+#funkce neni implementovana
 class Device(object):
     def __init__(reading_pipe, writing_pipe, dev_num, name):
         self.reading_pipe = reading_pipe #reading pipe to rpi
