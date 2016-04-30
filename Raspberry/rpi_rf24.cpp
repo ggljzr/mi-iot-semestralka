@@ -22,7 +22,7 @@ const uint8_t toggle_led_cmd[10] = {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x
 int main(int argc, char * argv[])
 {
 
-    if(argc < 4)
+    if(argc < 5)
     {
         cout << "usage: ./rpi_rf24 reading_pipe writing_pipe cmd(1 byte) data(4 bytes)" << endl;
         return 0;
@@ -32,8 +32,7 @@ int main(int argc, char * argv[])
     uint64_t writing_pipe = strtoll(argv[2], NULL, 16);
 
     uint8_t cmd = strtol(argv[3], NULL, 16);
-    uint32_t data = strtol(argv[4], NULL, 16);
-
+    uint32_t data = strtoll(argv[4], NULL, 16);
 
     radio.begin();
     radio.setRetries(15,15);
@@ -53,16 +52,18 @@ int main(int argc, char * argv[])
     write_buffer[0] = cmd;
     write_buffer[1] = 0x00;
 
+    printf("%lx\n", data);
+
     for(int i = 0; i < 4; i++)
     {
-        uint8_t data_byte = (data >> 8 * i) & 0xFF;
+        uint8_t data_byte = (data >> (8 * (3 - i))) & 0xFF;
         write_buffer[i + 6] = data_byte;
     }
 
     cout << "message: " << endl;
-    for(int i = 0; i < MESSAGE_LENGHT)
+    for(int i = 0; i < MESSAGE_LENGHT;i++)
     {
-        printf("%02hhx", write_buffer[i]);
+        printf("%02hhx ", write_buffer[i]);
     }
 
     printf("\nsending to %llx\n", writing_pipe);
