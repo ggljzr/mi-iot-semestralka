@@ -25,7 +25,7 @@ int main(int argc, char * argv[])
 
     if(argc < 5)
     {
-        cout << "usage: ./rpi_rf24 reading_pipe writing_pipe cmd(1 byte) data(4 bytes)" << endl;
+        cerr << "usage: ./rpi_rf24 reading_pipe writing_pipe cmd(1 byte) data(4 bytes)" << endl;
         return 0;
     }
 
@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
 
     radio.begin();
     radio.setRetries(15,15);
-    radio.printDetails();
+    //radio.printDetails();
 
     radio.openReadingPipe(1,reading_pipe);
     radio.openWritingPipe(writing_pipe);
@@ -53,7 +53,7 @@ int main(int argc, char * argv[])
     write_buffer[0] = cmd;
     write_buffer[1] = 0x00;
 
-    printf("%lx\n", data);
+    fprintf(stderr,"%lx\n", data);
 
     for(int i = 0; i < 4; i++)
     {
@@ -61,22 +61,22 @@ int main(int argc, char * argv[])
         write_buffer[i + 6] = data_byte;
     }
 
-    cout << "message: " << endl;
+    cerr << "message: " << endl;
     for(int i = 0; i < MESSAGE_LENGHT;i++)
     {
-        printf("%02hhx ", write_buffer[i]);
+        fprintf(stderr,"%02hhx ", write_buffer[i]);
     }
 
-    printf("\nsending to %llx\n", writing_pipe);
+    fprintf(stderr,"\nsending to %llx\n", writing_pipe);
 
     for(int i = 0; i < TRIES; i++)
     {
-        cout << "trying " << i << endl;
+        cerr << "trying " << i << endl;
         radio.stopListening();
         bool ok = radio.write(write_buffer, sizeof(uint8_t) * MESSAGE_LENGHT);
 
         if(!ok){
-            cout << "failed!" << endl;
+            cerr << "failed!" << endl;
             continue;
         }
 
@@ -91,16 +91,16 @@ int main(int argc, char * argv[])
         }
 
         if(timeout)
-            cout << "response timed out" << endl;
+            cerr << "response timed out" << endl;
         else
         {
             radio.read(read_buffer, sizeof(uint8_t) * READ_BUFFER_SIZE);
-            cout << "response" << endl;
+            cerr << "response" << endl;
             for(int i = 0; i < READ_BUFFER_SIZE; i++)
             {
                 printf("%02hhx ", read_buffer[i]);
             }
-            cout << endl;
+            cerr << endl;
             break;
         }
     }
