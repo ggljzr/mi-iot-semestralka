@@ -15,5 +15,5 @@ tak rozhraní pro webserver.
 Možnost vovládat ledky pomocí webový stránky
 
 ##ToDo
-stmívání s PWM, timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku,
+webserver, stmívání s PWM, timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku,
 grafy z hodnot vod senzorů ve webovym rozhraní
