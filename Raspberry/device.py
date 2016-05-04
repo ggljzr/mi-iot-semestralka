@@ -79,7 +79,6 @@ class Led_board(Device):
         except Device_error as e:
             print(str(e))
 
-        print("on: {}".format(led_num))
         return out
 
     def led_off(self, led_num):
@@ -88,7 +87,6 @@ class Led_board(Device):
         except Device_error as e:
             print(str(e))
 
-        print("off: {}".format(led_num))
         return out
 
     #vraci dvojici (cislo_led, sviti/nesviti)
