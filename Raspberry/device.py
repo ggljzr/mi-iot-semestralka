@@ -7,6 +7,12 @@ LED_ON = 0x02
 LED_OFF = 0x03
 LED_STATUS = 0x04
 
+RESPONSE_OK = 0x00
+RESPONSE_NOT_SUPPORTED = 0xFF
+
+ERROR_FAILED_TO_RESPOND = "Device failed to respond"
+ERROR_CMD_NOT_SUPPORTED = "Command is not supported on targeted device"
+
 def parse_output(out_bstring):
         out_string = out_bstring.decode('utf-8')
         out_string = out_string.split(' ')
@@ -17,14 +23,15 @@ def parse_output(out_bstring):
         return out_bytes
 
 class Device_error(Exception):
-    def __init__(self, reading_pipe, writing_pipe, dev_num, cmd_num):
+    def __init__(self, reading_pipe, writing_pipe, dev_num, cmd_num, msg):
         self.reading_pipe = reading_pipe
         self.writing_pipe = writing_pipe
         self.dev_num = dev_num;
         self.cmd_num = cmd_num
+        self.msg = msg
 
     def __str__(self):
-        error_str = 'Error raised when sending cmd={:x} on device={:x} using reading pipe={} and writing pipe={}'.format(self.cmd_num, self.dev_num, self.reading_pipe, self.writing_pipe)
+        error_str = 'Error raised when sending cmd={:x} on device={:x} using reading pipe={} and writing pipe={}, message: {} '.format(self.cmd_num, self.dev_num, self.reading_pipe, self.writing_pipe, self.msg)
         return error_str
 
 #taky funguje jako univerzalni zarizeni, podporuje
@@ -43,11 +50,16 @@ class Device(object):
         output = sb.check_output(cmd)
 
         if len(output) == 0:
-            raise Device_error(self.reading_pipe,self.writing_pipe, self.dev_num, cmd_num);
+            raise Device_error(self.reading_pipe,self.writing_pipe, self.dev_num, cmd_num, ERROR_FAILED_TO_RESPOND)
             return None
 
-        return parse_output(output)
+        parsed_output = parse_output(output)
 
+        if parsed_output[0] == RESPONSE_NOT_SUPPORTED:
+            raise Device_error(self.reading_pip, self.writing_pipe, self.dev_num, cmd_num, ERROR_CMD_NOT_SUPPORTED)
+            return None
+
+        return parsed_output
     
 
 class Led_board(Device):
@@ -58,6 +70,9 @@ class Led_board(Device):
     #navratovy hodnoty sou pole bytu vod programu rpi_rf24
     #kdyz to vrati None, neco se nepovedlo
     #(bude raisnutej Device_error s infem)
+    #jinak tady se ty errory proste tisknou
+    #na stdout a jede se dal, taky by se mohly
+    #nechat bublat az nahoru
     def led_on(self, led_num):
         try:
             out = self.send_cmd(0x02, led_num)
