@@ -2,7 +2,8 @@
 <title>Centrála</title>
 <div class="page">
   <h1>Raspberry Pi centrála</h1>
-  <div class="metanav">
+  <div class="led_board">
+      <h2>{{ led_name }}</h2>
   {% for led in led_status %}
     <div class="leds">
         LED {{ led[0] }} : {{ led[1] }}
@@ -10,4 +11,5 @@
         <a href="/led/{{ led[0] }}/off">OFF</a>
     </div>
   {% endfor %}
+  </div>
 </div>

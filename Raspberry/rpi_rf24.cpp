@@ -99,8 +99,10 @@ int main(int argc, char * argv[])
             for(int i = 0; i < READ_BUFFER_SIZE - 1; i++)
             {
                 printf("%02hhx ", read_buffer[i]);
+                fprintf(stderr,"%02hhx ", read_buffer[i]);
             }
             printf("%02hhx", read_buffer[READ_BUFFER_SIZE - 1]);
+            fprintf(stderr, "%02hhx", read_buffer[READ_BUFFER_SIZE - 1]);
             cerr << endl;
             break;
         }
