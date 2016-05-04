@@ -2,3 +2,5 @@ rpi_rf24
 *.swp
 *.o
 zprava
+*.pyc
+__pycache__
