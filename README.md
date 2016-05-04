@@ -15,8 +15,7 @@ tak rozhraní pro webserver.
 Možnost vovládat ledky pomocí webový stránky
 
 ##ToDo
-zakladni webový rozhrani pro ledky (on/off) už je hotový, zatim je zakomentovaný volání
-rpi_rf24 v Device tride. Jako idealni by bylo udělat to webový rozhraní tak, aby šlo za běhu
+Zakladni webový rozhrani pro ledky (on/off) už je hotový. Jako idealni by bylo udělat to webový rozhraní tak, aby šlo za běhu
 přidávat a vodebírat zařízení bez přepisování toho kódu, ale to až asi v další verzi.
 
 Pak by to taky chtělo nějaký html templaty pro různý zařízení.
