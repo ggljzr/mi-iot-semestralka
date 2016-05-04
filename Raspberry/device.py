@@ -97,7 +97,7 @@ class Led_board(Device):
             out = self.send_cmd(0x04, 0)
         except Device_error as e:
             print(str(e))
-            status_verb = ['chyba'] * self.led_count
+            return None
         else:
             status = out[6:10]
             status_verb = ["svítí" if led == 0x01  else "nesvítí" for led in status]
