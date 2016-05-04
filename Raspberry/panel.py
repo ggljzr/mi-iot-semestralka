@@ -1,5 +1,6 @@
 from flask import Flask, url_for, redirect, render_template
 import device as dev
+from rpi_info import get_interface_address 
 
 app = Flask(__name__)
 
@@ -18,11 +19,17 @@ def home_page():
     if status == None:
         error = True
     
+    ip_wlan = ['wlan', get_interface_address('wlan')]
+    ip_eth0 = ['eth0', get_interface_address('eth0')]
+
+    interfaces = [ip_eth0, ip_wlan]
+    
     return render_template('home_page.html', 
             led_status=status, 
             led_name = led_board.name,
             error = error,
-            error_message = error_message)
+            error_message = error_message,
+            interfaces = interfaces)
 
 @app.route("/led/<led_num>/<state>")
 def led_control(led_num, state):

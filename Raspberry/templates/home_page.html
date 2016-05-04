@@ -27,7 +27,18 @@
   </span>
   </div>
 
-  <div class="box">
-      <h2>Informace o RPi</h2>
-  </div>
 </div>
+
+<div class="box">
+      <h2>Informace o RPi</h2>
+      {% for interface in interfaces %}
+      <div class="interface">
+        {% if interface[1] == None  %}
+            {{ interface[0] }} : Žádná IP adresa
+        {% else %}
+            {{ interface[0] }} : {{ interface[1] }}
+        {% endif %}
+      </div>
+      {% endfor %}
+</div>
+
