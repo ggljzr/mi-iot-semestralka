@@ -16,11 +16,18 @@
   {% if not error %}
   {% for led in led_status %}
     <div class="leds">
-        LED {{ led[0] }} : {{ led[1] }}
-        <a href="/led/{{ led[0] }}/on">ON</a>
-        <a href="/led/{{ led[0] }}/off">OFF</a>
+        LED {{ led[0] }} : 
+        <a href="/led/{{ led[0] }}/on" {% if led[1] %} style="background-color:#955252; color:#eee;" {% endif %}>ON</a>
+        <a href="/led/{{ led[0] }}/off" {% if not led[1] %} style="background-color:#955252; color:#eee;" {% endif %}>OFF</a>
     </div>
   {% endfor %}
   {% endif %}
+  <span>
+      <button onclick="location.reload()" class="button">Obnovit</button>
+  </span>
+  </div>
+
+  <div class="box">
+      <h2>Informace o RPi</h2>
   </div>
 </div>

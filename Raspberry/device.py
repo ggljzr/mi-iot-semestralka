@@ -99,11 +99,6 @@ class Led_board(Device):
             print(str(e))
             return None
         else:
-            status = out[6:10]
-            status_verb = ["svítí" if led == 0x01  else "nesvítí" for led in status]
-        
-        status_verb = zip(range(0,self.led_count), status_verb)
-
-        return status_verb
-
+            status = zip(range(0,self.led_count), out[6:10])
+            return status
 
