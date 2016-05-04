@@ -15,7 +15,13 @@ tak rozhraní pro webserver.
 Možnost vovládat ledky pomocí webový stránky
 
 ##ToDo
-webserver, stmívání s PWM, timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku,
+zakladni webový rozhrani pro ledky (on/off) už je hotový, zatim je zakomentovaný volání
+rpi_rf24 v Device tride. Jako idealni by bylo udělat to webový rozhraní tak, aby šlo za běhu
+přidávat a vodebírat zařízení bez přepisování toho kódu, ale to až asi v další verzi.
+
+Pak by to taky chtělo nějaký html templaty pro různý zařízení.
+
+stmívání s PWM, timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku,
 grafy z hodnot vod senzorů ve webovym rozhraní, 
 
 udelat prikazy digital read a analog read pro cteni generickejch
