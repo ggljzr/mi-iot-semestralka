@@ -76,7 +76,7 @@ int main(int argc, char * argv[])
         bool ok = radio.write(write_buffer, sizeof(uint8_t) * MESSAGE_LENGHT);
 
         if(!ok){
-            cerr << "failed!" << endl;
+            cerr << "failed to write in pipe" << endl;
             continue;
         }
 
