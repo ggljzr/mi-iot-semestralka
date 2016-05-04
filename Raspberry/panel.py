@@ -4,7 +4,7 @@ import device as dev
 app = Flask(__name__)
 
 
-board = dev.Led_board('aa','bb',0,'led board')
+board = dev.Led_board('A0A0A0A0C3','F0F0F0F0C3',2,'led board')
 
 @app.route("/")
 def home_page():
@@ -23,4 +23,4 @@ def board_led_control(led_num, state):
     return redirect(url_for('home_page'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='raspberrypi.local',debug=True)

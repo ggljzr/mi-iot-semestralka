@@ -96,10 +96,11 @@ int main(int argc, char * argv[])
         {
             radio.read(read_buffer, sizeof(uint8_t) * READ_BUFFER_SIZE);
             cerr << "response" << endl;
-            for(int i = 0; i < READ_BUFFER_SIZE; i++)
+            for(int i = 0; i < READ_BUFFER_SIZE - 1; i++)
             {
                 printf("%02hhx ", read_buffer[i]);
             }
+            printf("%02hhx", read_buffer[READ_BUFFER_SIZE - 1]);
             cerr << endl;
             break;
         }
