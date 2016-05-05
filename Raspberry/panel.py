@@ -4,7 +4,7 @@ from rpi_info import get_interface_address
 
 app = Flask(__name__)
 
-led_board = dev.Led_board('A0A0A0A0C3','F0F0F0F0C3',2,'led board')
+led_board = dev.Led_board('A0A0A0A0C3','F0F0F0F0C3',2,'Ovládání LED')
 
 @app.route("/")
 def home_page():

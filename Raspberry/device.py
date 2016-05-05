@@ -74,6 +74,7 @@ class Led_board(Device):
     #na stdout a jede se dal, taky by se mohly
     #nechat bublat az nahoru
     def led_on(self, led_num):
+        out = None
         try:
             out = self.send_cmd(0x02, led_num)
         except Device_error as e:
@@ -82,6 +83,7 @@ class Led_board(Device):
         return out
 
     def led_off(self, led_num):
+        out = None
         try:
             out = self.send_cmd(0x03, led_num)
         except Device_error as e:
