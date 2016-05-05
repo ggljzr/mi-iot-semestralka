@@ -14,7 +14,7 @@ a:hover         { color: #eee; background-color: #BD6B6B;}
 .box            { margin: 2em auto; width: 35em; border: 2px solid #ccc;
                   padding: 0.8em; background: white; color: #545454}
 
-.error          { background: #BD6B6B; padding: 5px; }
+.error          { background: #BD6B6B; padding: 5px; margin: 5px; color:#eee}
 
 .button         {color: #545454; background-color: #eee; border: none;}
 .button:hover   {color: #eee; background-color: #BD6B6B;}

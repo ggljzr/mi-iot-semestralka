@@ -10,6 +10,9 @@ led_board = dev.Led_board('A0A0A0A0C3','F0F0F0F0C3',2,'led board')
 def home_page():
     status = led_board.led_status();
     error = False;
+
+    #ten vypis mozna presunout az do toho templatu
+    #tady predavat jen error flag (mozna naky cislo misto jen true/false)
     error_message = 'Zkontrolujte připojení zařízení' 
 
     #tady by mozna bylo lepsi nevodchytavat ten Device_error
