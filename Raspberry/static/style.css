@@ -1,20 +1,22 @@
 body            { font-family: sans-serif; background: #eee; }
-h1, h2              { color: #955252; }
+h1              { color: #955252; }
+h2              { color: #61878B; }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 18pt; border-bottom: 2px solid #eee; margin-bottom: 6px;}
 
-a               { color: #545454; background-color: #eee;}
 a               { padding: 4px; width: 10px; height: 10px; text-decoration:none;}
-a:hover         { color: #eee; background-color: #BD6B6B;}
+a               { color: #545454; background-color: #eee;}
+a.pressed       { color: #eee; background-color: #61878B;}
+a:hover         { color: #eee; background-color: #60B1B7;}
 
 .leds           {height: 30px; padding-top: 5px;}
 .led_board      {padding-top: 5px;}
 
-.box            { margin: 2em auto; width: 35em; border: 2px solid #ccc;
+.box            { margin: 2em auto; width: 35em; border: 2px solid #60B1B7;
                   padding: 0.8em; background: white; color: #545454}
 
 .error          { background: #BD6B6B; padding: 5px; margin: 5px; color:#eee}
 
 .button         {color: #545454; background-color: #eee; border: none;}
-.button:hover   {color: #eee; background-color: #BD6B6B;}
+.button:hover   {color: #eee; background-color: #60B1B7;}
