@@ -14,11 +14,10 @@ from matplotlib import dates
 #kdyz existuje, tj kdyz se to zapne
 #tak se zacne logovat vod zacatku
 class Logger(object):
-    def __init__(self, logfile_path, entries_count, time_format = None):
+    def __init__(self, logfile_path, entries_count):
         self.logfile_path = logfile_path
         self.entries_count = entries_count
         self.log_buffer = []
-        self.time_format = time_format
 
     def write_to_file(self):
         with open(self.logfile_path, 'w') as logfile:
@@ -38,13 +37,13 @@ class Logger(object):
         self.write_to_file()
 
     #zatim jednoduchy vykreslovani do grafu
-    def plot_data(self, img_path, ylabel = 'Hodnota'):
+    def plot_data(self, img_path, ylabel = 'Hodnota', time_format = None):
         x = [entry[0] for entry in self.log_buffer]
         y = [entry[1] for entry in self.log_buffer]
 
         plt.ylabel(ylabel)
         
-        if self.time_format != None:
+        if time_format != None:
             plt.gca().xaxis.set_major_formatter(dates.DateFormatter(self.time_format))
             plt.gca().xaxis.set_major_locator(dates.DayLocator())
         
