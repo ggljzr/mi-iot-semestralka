@@ -46,6 +46,8 @@ class Device(object):
         self.dev_num = dev_num           #device number of targeted device (not rpi)
         self.name = name
     
+    #tady by to chtelo lepsi kontrolu toho, co to vlastne to cmd_data je
+    #ale jako mel by to bejt string proste treba "00ff00ff"
     def send_cmd(self, cmd_num, cmd_data):
         cmd = ['sudo', PATH_TO_RPI_RF24, self.reading_pipe, self.writing_pipe, str(cmd_num), str(cmd_data)]
 
