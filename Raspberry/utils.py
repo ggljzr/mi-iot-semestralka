@@ -44,7 +44,7 @@ class Logger(object):
         plt.ylabel(ylabel)
         
         if time_format != None:
-            plt.gca().xaxis.set_major_formatter(dates.DateFormatter(self.time_format))
+            plt.gca().xaxis.set_major_formatter(dates.DateFormatter(time_format))
             plt.gca().xaxis.set_major_locator(dates.DayLocator())
         
         plt.plot(x,y)
