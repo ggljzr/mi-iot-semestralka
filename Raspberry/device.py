@@ -13,6 +13,8 @@ RESPONSE_NOT_SUPPORTED = 0xFF
 ERROR_FAILED_TO_RESPOND = "Device failed to respond"
 ERROR_CMD_NOT_SUPPORTED = "Command is not supported on targeted device"
 
+PATH_TO_RPI_RF24 = './rpi_rf24/rpi_rf24'
+
 def parse_output(out_bstring):
         out_string = out_bstring.decode('utf-8')
         out_string = out_string.split(' ')
@@ -45,7 +47,7 @@ class Device(object):
         self.name = name
     
     def send_cmd(self, cmd_num, cmd_data):
-        cmd = ['sudo','./rpi_rf24', self.reading_pipe, self.writing_pipe, str(cmd_num), str(cmd_data)]
+        cmd = ['sudo', PATH_TO_RPI_RF24, self.reading_pipe, self.writing_pipe, str(cmd_num), str(cmd_data)]
 
         output = sb.check_output(cmd)
 
