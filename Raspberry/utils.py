@@ -2,6 +2,7 @@ import datetime
 import matplotlib.pyplot as plt
 from matplotlib import dates
 
+
 #trida pro logovani dat do souboru
 #po vytvoreni si v bufferu drzi max
 #entries_count zaznamu a po pridani 

@@ -13,7 +13,7 @@ RESPONSE_NOT_SUPPORTED = 0xFF
 ERROR_FAILED_TO_RESPOND = "Device failed to respond"
 ERROR_CMD_NOT_SUPPORTED = "Command is not supported on targeted device"
 
-PATH_TO_RPI_RF24 = './rpi_rf24/rpi_rf24'
+PATH_TO_RPI_RF24 = './rpi_rf24/rpi_rf24.out'
 
 def parse_output(out_bstring):
         out_string = out_bstring.decode('utf-8')

@@ -1,5 +1,7 @@
 import subprocess as sb
 
+#mozna tohle dat do utils.py
+
 #vraci string s ip adresou zvolenyho interface
 #nebo None kdyz interface zadnou nema
 def get_interface_address(interface):
