@@ -32,7 +32,8 @@ uint8_t default_answer[10] = {0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x
 
 const uint8_t not_supported[10] = {0xFF, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-const uint8_t led_pins[LED_NUM] = {2,3,4,5};
+const uint8_t led_pins[LED_NUM] = {3,5,6,9};
+uint8_t led_states[LED_NUM] = {0,0,0,0};
 
 //adresy pouzity v openReadingPipe 1 - 5 by se mely
 //lisit jen v prvnim bytu
@@ -59,6 +60,7 @@ void setup()
     for(int i = 0; i < LED_NUM; i++){
         pinMode(led_pins[i], OUTPUT);
         digitalWrite(led_pins[i], LOW);
+        led_states[i] = 0;
     }
 
 }
@@ -103,6 +105,7 @@ void loop()
         write_buffer[1] = THIS_DEVICE_NUM;
 
         uint8_t led_num = 0;
+        uint8_t pwm_val = 0;
         bool current_led_state = 0;
         bool answer = false;
         switch(read_buffer[0])
@@ -116,29 +119,46 @@ void loop()
             case 0x01:
                 led_num = read_buffer[9];
                 led_num = led_num % LED_NUM;
-                current_led_state = digitalRead(led_pins[led_num]);
-                current_led_state = !current_led_state;
-                digitalWrite(led_pins[led_num], current_led_state);
+                
+                if(led_states[led_num] > 0)
+                {
+                    led_states[led_num] = 0;
+                }
+                else
+                {
+                    led_states[led_num] = 255;
+                }
+                
+                analogWrite(led_pins[led_num], led_states[led_num]);
                 write_buffer[0] = 0x00;
-                write_buffer[9] = current_led_state;
+                write_buffer[9] = led_states[led_num];
                 break;
             case 0x02:
                 led_num = read_buffer[9];
                 led_num = led_num % LED_NUM;
                 digitalWrite(led_pins[led_num], HIGH);
+                led_states[led_num] = 255;
                 write_buffer[0] = 0x00;
                 break;
             case 0x03:
                 led_num = read_buffer[9];
                 led_num = led_num % LED_NUM;
                 digitalWrite(led_pins[led_num], LOW);
+                led_states[led_num] = 0;
                 write_buffer[0] = 0x00;
                 break;
             case 0x04:
-                write_buffer[9] = digitalRead(led_pins[3]);
-                write_buffer[8] = digitalRead(led_pins[2]);
-                write_buffer[7] = digitalRead(led_pins[1]);
-                write_buffer[6] = digitalRead(led_pins[0]);
+                write_buffer[9] = led_states[3];
+                write_buffer[8] = led_states[2];
+                write_buffer[7] = led_states[1];
+                write_buffer[6] = led_states[0];
+                break;
+            case 0x05:
+                led_num = read_buffer[9];
+                pwm_val = read_buffer[8];
+                led_num = led_num % LED_NUM;
+                analogWrite(led_pins[led_num], pwm_val);
+                led_states[led_num] = pwm_val;
                 break;
             default:
                 write_buffer[0] = 0xFF;
