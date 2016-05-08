@@ -77,19 +77,12 @@ class Led_board(Device):
     #jinak tady se ty errory proste tisknou
     #na stdout a jede se dal, taky by se mohly
     #nechat bublat az nahoru
-    def led_on(self, led_num):
+    def led_write(self, led_num, led_value):
         out = None
+        data = '{:02x}{:02x}'.format(led_value, led_num)
+        print("data {}".format(data))
         try:
-            out = self.send_cmd(0x02, led_num)
-        except Device_error as e:
-            print(str(e))
-
-        return out
-
-    def led_off(self, led_num):
-        out = None
-        try:
-            out = self.send_cmd(0x03, led_num)
+            out = self.send_cmd(0x05, data)
         except Device_error as e:
             print(str(e))
 

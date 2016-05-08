@@ -34,14 +34,12 @@ def home_page():
             error_message = error_message,
             interfaces = interfaces)
 
-@app.route("/led/<led_num>/<state>")
-def led_control(led_num, state):
+@app.route("/led/<led_num>/<value>")
+def led_control(led_num, value):
     led_num = int(led_num)
-    
-    if state == 'on':
-        led_board.led_on(led_num)
-    elif state == 'off':
-        led_board.led_off(led_num)
+    led_value = int(value)
+
+    led_board.led_write(led_num, led_value)
 
     return redirect(url_for('home_page'))
 

@@ -17,8 +17,8 @@
   {% for led in led_status %}
     <div class="leds">
         LED {{ led[0] }} : 
-        <a href="/led/{{ led[0] }}/on" {% if led[1] %} class="pressed" {% endif %}>ON</a>
-        <a href="/led/{{ led[0] }}/off" {% if not led[1] %} class="pressed" {% endif %}>OFF</a>
+        <a href="/led/{{ led[0] }}/255" {% if led[1] %} class="pressed" {% endif %}>ON</a>
+        <a href="/led/{{ led[0] }}/0" {% if not led[1] %} class="pressed" {% endif %}>OFF</a>
     </div>
   {% endfor %}
   {% endif %}
