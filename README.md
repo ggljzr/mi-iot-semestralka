@@ -20,8 +20,9 @@ přidávat a vodebírat zařízení bez přepisování toho kódu, ale to až as
 
 Pak by to taky chtělo nějaký html templaty pro různý zařízení.
 
-stmívání s PWM, timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku,
-grafy z hodnot vod senzorů ve webovym rozhraní, 
+Nějaký stmívání s PWM už je ve webovym rozhraní, ale chce to ještě dodělat. 
+
+Timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku, grafy z hodnot vod senzorů ve webovym rozhraní. 
 
 udelat prikazy digital read a analog read pro cteni generickejch
 senzoru (proste akorat precte pin a vrati hodnotu), 
