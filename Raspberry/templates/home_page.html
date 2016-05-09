@@ -27,7 +27,7 @@
         <a id="link_{{ led[0] }}" href="" onclick="this.href=get_slider_url({{ led[0] }});" {% if led[1] %} class="pressed" {% endif %}>ON</a>
 
         <a href='/led/{{ led[0] }}/0' {% if not led[1] %} class="pressed" {% endif %}>OFF</a> 
-        <input type="range" class="led_range" id="range_{{ led[0] }}" value="255" min='20' max='255'>
+        <input type="range" class="led_range" id="range_{{ led[0] }}" value="{{ led[1] }}" min='20' max='255'>
     </div>
   {% endfor %}
   <input type="range" id="range_global" value="255" min="20" max="255" onchange="set_other_ranges()">

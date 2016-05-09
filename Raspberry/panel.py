@@ -27,6 +27,9 @@ def home_page():
 
     interfaces = [ip_eth0, ip_wlan]
     
+    #slidery ve webovym rozhrani se po refreshi nastavej
+    #na hodnotu podle ktery svitej ledky a 
+    #nevim jesli to je nahovno nebo ne
     return render_template('home_page.html', 
             led_status=status, 
             led_name = led_board.name,
