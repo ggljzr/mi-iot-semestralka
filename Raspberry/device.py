@@ -71,6 +71,24 @@ class Led_board(Device):
         Device.__init__(self,reading_pipe, writing_pipe, dev_num, name)
         self.led_count = LED_COUNT
 
+    def led_on(self, led_num):
+        out = None
+        try:
+            out = self.send_cmd(0x02, led_num)
+        except Device_error as e:
+            print(str(e))
+
+        return out
+
+    def led_off(self, led_num):
+        out = None
+        try:
+            out = self.send_cmd(0x03, led_num)
+        except Device_error as e:
+            print(str(e))
+
+        return out
+
     #navratovy hodnoty sou pole bytu vod programu rpi_rf24
     #kdyz to vrati None, neco se nepovedlo
     #(bude raisnutej Device_error s infem)
