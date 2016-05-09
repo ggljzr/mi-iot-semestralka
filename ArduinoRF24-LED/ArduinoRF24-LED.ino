@@ -23,6 +23,9 @@
 #define THIS_ARD_WRITE_PIPE ARD2_TO_ARD1
 #define THIS_ARD_READ_PIPE  ARD1_TO_ARD2
 
+//tohle by asi uplne nemelo bejt vic nez 4
+//protoze pak se to nevejde do ty zpravy
+//by se muselo pak delat jako bitovej vektor
 #define LED_NUM 4
 
 RF24 radio(7,8);
@@ -148,10 +151,10 @@ void loop()
                 write_buffer[0] = 0x00;
                 break;
             case 0x04:
-                write_buffer[9] = led_states[3];
-                write_buffer[8] = led_states[2];
-                write_buffer[7] = led_states[1];
-                write_buffer[6] = led_states[0];
+                for(int i = 0; i < LED_NUM; i++)
+                {
+                    write_buffer[(WRITE_BUFFER_SIZE - LED_NUM) + i] = led_states[i];
+                }
                 break;
             case 0x05:
                 led_num = read_buffer[9];
