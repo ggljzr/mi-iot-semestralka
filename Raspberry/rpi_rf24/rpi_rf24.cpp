@@ -53,8 +53,6 @@ int main(int argc, char * argv[])
     write_buffer[0] = cmd;
     write_buffer[1] = 0x00;
 
-    fprintf(stderr,"%lx\n", data);
-
     for(int i = 0; i < 4; i++)
     {
         uint8_t data_byte = (data >> (8 * (3 - i))) & 0xFF;

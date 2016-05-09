@@ -80,7 +80,6 @@ class Led_board(Device):
     def led_write(self, led_num, led_value):
         out = None
         data = '{:02x}{:02x}'.format(led_value, led_num)
-        print("data {}".format(data))
         try:
             out = self.send_cmd(0x05, data)
         except Device_error as e:

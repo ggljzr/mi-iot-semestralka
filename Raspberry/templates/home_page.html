@@ -1,6 +1,10 @@
 <!doctype html>
+<head>
 <title>Centrála</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
 <div class="box">
   <h1>Raspberry Pi centrála</h1>
 </div>
@@ -16,15 +20,23 @@
   {% if not error %}
   {% for led in led_status %}
     <div class="leds">
-        LED {{ led[0] }} : 
-        <a href="/led/{{ led[0] }}/255" {% if led[1] %} class="pressed" {% endif %}>ON</a>
-        <a href="/led/{{ led[0] }}/0" {% if not led[1] %} class="pressed" {% endif %}>OFF</a>
+        LED {{ led[0] }} : <!--
+        <a href="/led/{{ led[0] }}/255" {% if led[1] %} class="pressed" {% endif %}>ON</a> -->
+
+        <!--jqueryless hack -->
+        <a id="link_{{ led[0] }}" href="" onclick="this.href=get_slider_url({{ led[0] }});" {% if led[1] %} class="pressed" {% endif %}>ON</a>
+
+        <a href='/led/{{ led[0] }}/0' {% if not led[1] %} class="pressed" {% endif %}>OFF</a> 
+        <input type="range" class="led_range" id="range_{{ led[0] }}" value="255" min='20' max='255'>
     </div>
   {% endfor %}
+  <input type="range" id="range_global" value="255" min="20" max="255" onchange="set_other_ranges()">
   {% endif %}
+  <div class="refresh_button">
   <span>
       <button onclick="location.reload()" class="button">Obnovit</button>
   </span>
+  </div>
   </div>
 
 </div>
@@ -42,3 +54,24 @@
       {% endfor %}
 </div>
 
+<script>
+
+function get_slider_url(led_num)
+{
+    var value = document.getElementById('range_' + led_num).value;
+    return '/led/' + led_num + '/' + value
+}
+
+function set_other_ranges()
+{
+    var global_val = document.getElementById('range_global').value
+    var led_ranges = document.getElementsByClassName('led_range')
+
+    for(i = 0; i < led_ranges.length; i++)
+    {
+        led_ranges[i].value = global_val;
+    }
+
+}
+
+</script>
