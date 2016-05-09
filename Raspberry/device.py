@@ -105,9 +105,10 @@ class Led_board(Device):
 
         return out
 
-    #vraci dvojici (cislo_led, sviti/nesviti)
+    #vraci dvojici (cislo_led, hodnota PWM) pro kazdou led
     #kdyz je Device_error tak ho to vypise na
     #stdout a ve webovym rozhrani to hlasi chyba
+    #ta chyba by se taky mohla nechat probublat vejs no
     def led_status(self):
         try:
             out = self.send_cmd(0x04, 0)
