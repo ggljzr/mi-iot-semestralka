@@ -19,12 +19,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial.println("DHT TEST PROGRAM ");
-  Serial.print("LIBRARY VERSION: ");
-  Serial.println(DHT_LIB_VERSION);
-  Serial.println();
-  Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)");
+  Serial.begin(9600);
 
   pinMode(DHT11_POWER_PIN, OUTPUT);
   digitalWrite(DHT11_POWER_PIN, HIGH);
@@ -36,7 +31,6 @@ void setup()
 void loop()
 {
   // READ DATA
-  Serial.print("DHT11, \t");
   int chk = DHT.read11(DHT11_PIN);
   switch (chk)
   {
@@ -53,11 +47,6 @@ void loop()
 		Serial.print("Unknown error,\t"); 
 		break;
   }
-  // DISPLAY DATA
-  Serial.print(DHT.humidity, 1);
-  Serial.print(",\t");
-  Serial.println(DHT.temperature, 1);
-
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print(TEMP_STR);
