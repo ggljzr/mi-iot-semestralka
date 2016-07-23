@@ -109,7 +109,6 @@ void loop()
 
         uint8_t led_num = 0;
         uint8_t pwm_val = 0;
-        bool current_led_state = 0;
         bool answer = false;
         switch(read_buffer[0])
         {
