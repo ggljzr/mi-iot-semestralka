@@ -37,7 +37,6 @@ const uint8_t default_answer[10] = {0xFF, 0x01, 0x00,0x00, 0x00, 0x00, 0x00, 0x0
 
 //adresy pouzity v openReadingPipe 1 - 5 by se mely
 //lisit jen v prvnim bytu
-bool led_state;
 
 void setup()
 {
@@ -129,8 +128,6 @@ void loop()
             Serial.print(" ");
         }
         Serial.println("");
-        //led_state = !led_state;
-        //digitalWrite(LED_PIN, led_state);
         
     }
 
