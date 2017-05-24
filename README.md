@@ -1,33 +1,14 @@
-#MI-IOT semestrálka
-#Dálkové ovládání LED
+# Dálkové ovládání LED
 
-##Arduino
+## Arduino
 Dálkovej ovladač - tlačítka pro ovládání LED.
 LED deska - podle příchozích příkazů buď vod vovladače nebo vod Rpi rozsvěcí/zhasíná LED.
 
-##Raspberry Pi
+## Raspberry Pi
 
-###rpi_rf24
+### rpi_rf24
 V c++, pošle zvolenou zprávu na zařízení určené adresou writing_pipe a reading_pipe. Poskytne
 tak rozhraní pro webserver.
 
-###Webserver
-Možnost vovládat ledky pomocí webový stránky
-
-##ToDo
-Zakladni webový rozhrani pro ledky (on/off) už je hotový. Jako idealni by bylo udělat to webový rozhraní tak, aby šlo za běhu
-přidávat a vodebírat zařízení bez přepisování toho kódu, ale to až asi v další verzi.
-
-Pak by to taky chtělo nějaký html templaty pro různý zařízení.
-
-Nějaký stmívání s PWM už je ve webovym rozhraní, ale chce to ještě dodělat. 
-
-Timestampy ve zprávách, lepší komunikační protokol, další senzory pro LED desku, grafy z hodnot vod senzorů ve webovym rozhraní. 
-
-udelat prikazy digital read a analog read pro cteni generickejch
-senzoru (proste akorat precte pin a vrati hodnotu), 
-to vlastne staci akorat napsat do ty dokumentace protoze to stejne nebude nikde implementovany zatim,
-akorat s tim bude pocitat ta trida device v tim pythonu
-
-i kdyz aspon na ty led desce by se to udelat mohlo, aby se k ni daly pridavat dalsi senzory a aspon
-nak je cist bez zmeny kodu, aspon ten analog read, proste precte analogovej senzor A0-A7 a vrati hodnotu
+### Webserver
+Možnost vovládat ledky pomocí webové stránky
