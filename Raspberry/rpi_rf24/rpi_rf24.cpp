@@ -84,7 +84,7 @@ int main(int argc, char * argv[])
         bool timeout = false;
         while(!radio.available() && !timeout)
         {
-            if(millis() - started_waiting > 600)
+            if(millis() - started_waiting > MESSAGE_TIMEOUT)
                 timeout = true;
         }
 
